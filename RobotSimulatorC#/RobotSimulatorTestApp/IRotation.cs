@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotSimulatorTestApp
 {
+    // Design pattern: Factory method
     public interface IRotation
     {
         Direction Rotate(Direction direction);
