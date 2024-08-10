@@ -19,12 +19,41 @@ public class Program {
                 List<DataBlock> dataBlocks = dataParser.parse(lines.toArray(new String[0]));
 
                 for (DataBlock block : dataBlocks) {
-                    System.out.println("Input:");
+                    System.out.println("\nInput:");
                     System.out.println(block.getRows() + " " + block.getColumns());
                     System.out.println(block.getCurrentRow() + ", " + block.getCurrentColumn() + ", " + block.getCurrentDirection());
                     System.out.println(block.getCommands());
                     System.out.println();
+ 
+                    RobotSimulator robotSimulator = new RobotSimulator();
 
+                    IRotation rotation;
+
+                    // Process commands
+                    String status = "";
+                    for (char command : block.getCommands().toCharArray()) {
+                        switch (command) {
+                            case 'M':
+                                robotSimulator.move(block);
+                                status = "Position";
+                                break;
+                            case 'R':
+                                rotation = new RotateRight();
+                                block.setCurrentDirection(robotSimulator.selectedRotation(rotation, block.getCurrentDirection()));
+                                status = "location";
+                                break;
+                            case 'L':
+                                rotation = new RotateLeft();
+                                block.setCurrentDirection(robotSimulator.selectedRotation(rotation, block.getCurrentDirection()));
+                                status = "location";
+                                break;
+                        }
+
+                        System.out.println("Current " + status + ": " + block.getCurrentRow() + " " + block.getCurrentColumn() + " " + block.getCurrentDirection());
+                    }
+
+                    // Output the final position and direction
+                    System.out.println("Output: " + block.getCurrentRow() + " " + block.getCurrentColumn() + " " + block.getCurrentDirection()); 
                 }
             } else {
                 System.out.println("File directory path is not available, please check!");
