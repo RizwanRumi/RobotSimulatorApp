@@ -11,7 +11,7 @@ public class Program
         string path = @"C:\Personal_project\RobotSimulatorC#\RobotSimulatorTestApp\files\input.txt";
 
         var dataParser = new DataParser();
-        
+
         try
         {
             if (File.Exists(path))
@@ -28,16 +28,11 @@ public class Program
                     Console.WriteLine($"{block.CurrentRow}, {block.CurrentColumn}, {block.CurrentDirection}");
                     Console.WriteLine($"{block.Commands}");
                     Console.WriteLine();
-
-                    int rows = block.Rows;
-                    int cols = block.Columns;
-                    int currentRow = block.CurrentRow;
-                    int currentCol = block.CurrentColumn;
-                    Direction currentDirection = (Direction)Enum.Parse(typeof(Direction), value: Convert.ToString(block.CurrentDirection));
-
+                                        
                     RobotSimulator robotSimulator = new RobotSimulator();
 
-                   
+                    IRotation rotation;
+                    
                     // Process commands
                     string status = "";
                     foreach (char command in block.Commands)
@@ -46,26 +41,27 @@ public class Program
                         switch (command)
                         {
                             case 'M':
-                                robotSimulator.Move(ref currentRow, ref currentCol, currentDirection, rows, cols);
+                                robotSimulator.Move(block);                                
                                 status = "Position";
                                 break;
                             case 'R':
-                                currentDirection = robotSimulator.RotateRight(currentDirection);
+                                rotation = new RotateRight();
+                                block.CurrentDirection = robotSimulator.SelectedRotation(rotation, block.CurrentDirection);                                
                                 status = "location";
                                 break;
                             case 'L':
-                                currentDirection = robotSimulator.RotateLeft(currentDirection);
+                                rotation = new RotateLeft();
+                                block.CurrentDirection = robotSimulator.SelectedRotation(rotation, block.CurrentDirection);                               
                                 status = "location";
                                 break;
                         }
 
-                       Console.WriteLine($"Current {status}: {currentRow} {currentCol} {currentDirection}");
+                        Console.WriteLine($"Current {status}: {block.CurrentRow} {block.CurrentColumn} {block.CurrentDirection}");
+                        
                     }
 
                     // Output the final position and direction
-                    Console.WriteLine($"Output : {currentRow} {currentCol} {currentDirection}");
-
-                    
+                    Console.WriteLine($"Output: {block.CurrentRow} {block.CurrentColumn} {block.CurrentDirection}");                    
                 }
             }
             else
@@ -80,7 +76,7 @@ public class Program
         }
 
 
-       
+
     }
 
     
