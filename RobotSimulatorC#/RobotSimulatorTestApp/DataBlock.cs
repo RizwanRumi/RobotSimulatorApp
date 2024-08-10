@@ -12,9 +12,9 @@ namespace RobotSimulatorTestApp
     {
         public int Rows { get; }
         public int Columns { get; }
-        public int CurrentRow { get; }
-        public int CurrentColumn { get; }
-        public Direction CurrentDirection { get; }
+        public int CurrentRow { get; set; }
+        public int CurrentColumn { get; set; }
+        public Direction CurrentDirection { get; set; }
         public string Commands { get; }
 
         public DataBlock(int rows, int columns, int currentRow, int currentColumn, Direction direction, string commands)
