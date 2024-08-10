@@ -8,37 +8,48 @@ using System.Threading.Tasks;
 
 namespace RobotSimulatorTestApp
 {
-    internal class RobotSimulator
+    public class RobotSimulator
     {
-        internal void Move(ref int row, ref int col, Direction direction, int maxRows, int maxCols)
+        private IMove? _selectedMove;
+        private IRotation? _rotation;
+
+        public RobotSimulator() 
         {
-            switch (direction)
+            _selectedMove = null;
+            _rotation = null;
+        }
+
+        // implemented dependency injection in both Move and SelectedRotation method
+
+        public void Move(DataBlock block)
+        {
+            if (block.CurrentDirection == Direction.N)
+            {               
+                _selectedMove = new MoveUp();
+
+                block.CurrentRow = _selectedMove.Move(block.CurrentRow, 0);
+            }
+            else if (block.CurrentDirection == Direction.E)
             {
-                case Direction.N:
-                    if (row > 0) row--;
-                    break;
-                case Direction.E:
-                    if (col < maxCols - 1) col++;
-                    break;
-                case Direction.S:
-                    if (row < maxRows - 1) row++;
-                    break;
-                case Direction.W:
-                    if (col > 0) col--;
-                    break;
+                _selectedMove = new MoveRight();
+                block.CurrentColumn = _selectedMove.Move(block.CurrentColumn, block.Columns);
+            }
+            else if (block.CurrentDirection == Direction.S)
+            {
+                _selectedMove = new MoveDown();
+                block.CurrentRow = _selectedMove.Move(block.CurrentRow, block.Rows);
+            }
+            else if (block.CurrentDirection == Direction.W)
+            {
+                _selectedMove = new MoveLeft();
+                block.CurrentColumn = _selectedMove.Move(block.CurrentColumn, 0);
             }
         }
-
-        
-
-        internal Direction RotateRight(Direction direction)
+                
+        public Direction SelectedRotation(IRotation rotation, Direction currentDirection)
         {
-            return (Direction)(((int)direction + 1) % 4);
-        }
-
-        internal Direction RotateLeft(Direction direction)
-        {
-            return (Direction)(((int)direction + 3) % 4);
+            _rotation = rotation;
+            return _rotation.Rotate(currentDirection);
         }
     }
 }
