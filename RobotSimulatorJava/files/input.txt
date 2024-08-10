@@ -1,0 +1,17 @@
+5 5 
+1 2 S 
+MRMLM
+
+5 6
+1 2 N
+MRMLRMM
+
+5 5 
+1 2 N 
+MRMLRMM
+
+
+
+5 4
+1 2 N
+LMLMMRMMLRM
