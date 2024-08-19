@@ -8,7 +8,7 @@ class MoveUp implements IMove {
     @Override
     public int move(int position, int boundary) {
         int row = position;
-        if (row > 0) row--;
+        if (row > boundary) row--;
         return row;
     }
 }
@@ -42,7 +42,7 @@ class MoveLeft implements IMove {
     @Override
     public int move(int position, int boundary) {
         int col = position;
-        if (col > 0) col--;
+        if (col > boundary) col--;
         return col;
     }
 }

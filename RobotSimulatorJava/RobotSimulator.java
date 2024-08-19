@@ -7,7 +7,7 @@ public class RobotSimulator {
         this.rotation = null;
     }
 
-    // Dependency injection implemented in both move and selectedRotation methods
+    // Dependency injection implemented in selectedRotation methods
     public void move(DataBlock block) {
         if (block.getCurrentDirection() == Direction.N) {
             selectedMove = new MoveUp();
